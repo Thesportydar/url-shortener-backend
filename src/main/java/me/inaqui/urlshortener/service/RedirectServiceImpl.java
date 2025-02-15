@@ -22,13 +22,16 @@ public class RedirectServiceImpl implements RedirectService {
     @Value("${url_prefix}")
     private String urlPrefix;
 
+    private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private final SecureRandom random = new SecureRandom();
     private static final int MAX_RETRIES = 6;
 
     private String generateRandomAlias() {
-        byte[] bytes = new byte[6];
-        random.nextBytes(bytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes).substring(0, 6);
+        StringBuilder alias = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
+            alias.append(ALPHANUMERIC.charAt(random.nextInt(ALPHANUMERIC.length())));
+        }
+        return alias.toString();
     }
 
     private String generateUniqueAlias() {

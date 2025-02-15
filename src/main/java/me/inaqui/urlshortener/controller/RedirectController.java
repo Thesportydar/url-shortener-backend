@@ -17,11 +17,12 @@ import java.net.URISyntaxException;
 
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4321")
 public class RedirectController {
 
     private final RedirectService redirectService;
 
-    @GetMapping("/{alias:.{6}}")
+    @GetMapping("/{alias:[a-zA-Z0-9]{6,15}}")
     public ResponseEntity<?> handleRedirect(@PathVariable String alias) throws URISyntaxException {
         Redirect redirect = redirectService.getRedirect(alias);
         URI uri = new URI(redirect.getLongUrl());
