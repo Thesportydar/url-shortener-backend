@@ -8,10 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
+import java.io.Serializable;
+
 @Data
 @Entity
 @NoArgsConstructor
-public class Redirect {
+public class Redirect implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)

@@ -7,6 +7,8 @@ import me.inaqui.urlshortener.exception.ConflictException;
 import me.inaqui.urlshortener.exception.NotFoundException;
 import me.inaqui.urlshortener.repository.RedirectRepository;
 import me.inaqui.urlshortener.request.RedirectCreateRequest;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -75,6 +77,7 @@ public class RedirectServiceImpl implements RedirectService {
     }
 
     @Override
+    @Cacheable(value = "redirects", key = "#alias")
     public Redirect getRedirect(String alias) {
         return redirectRepository.findByAlias(alias)
                 .orElseThrow(() -> new NotFoundException(String.format("Alias %s not found", alias)));
